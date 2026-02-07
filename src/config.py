@@ -38,7 +38,9 @@ class AppConfig:
             return cls(**{k: v for k, v in data.items() if hasattr(cls, k)})
         return cls()
 
-    def save(self, path: str = "config.yaml"):
+    def save(self, path: str = None):
+        if path is None:
+            path = getattr(self, '_save_path', 'config.yaml')
         data = {
             "camera_index": self.camera_index,
             "width": self.width,
@@ -47,7 +49,7 @@ class AppConfig:
             "vcam_backend": self.vcam_backend,
             "target_color_lab": list(self.target_color_lab),
             "color_intensity": self.color_intensity,
-            "model_path": self.model_path,
+            "model_path": "models/hair_segmenter.tflite",  # Always save relative path
             "mask_blur_kernel": self.mask_blur_kernel,
             "mask_threshold": self.mask_threshold,
             "temporal_alpha": self.temporal_alpha,
